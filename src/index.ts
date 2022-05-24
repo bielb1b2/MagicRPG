@@ -13,7 +13,10 @@ interface IClient extends Client {
     commands: Collection<any, any>
 }
 
-const client = new Client({  intents: [Intents.FLAGS.GUILDS] }) as IClient;
+const client = new Client({  
+    intents: [Intents.FLAGS.GUILDS],
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+}) as IClient;
 
 client.once('ready', () => {
     console.log('I\'m up!');
@@ -37,7 +40,7 @@ for (const file of commandFiles) {
 
 const rest = new REST({ version: '9' }).setToken(token);
 
-const database = new DatabaseRPG();
+const { database } = new DatabaseRPG();
 
 (async () => {
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
