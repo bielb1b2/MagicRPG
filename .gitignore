@@ -1,4 +1,7 @@
+
+# Node Modules
 /node_modules
 config.json
 yarn-error.log
 yarn.lock
+/dist

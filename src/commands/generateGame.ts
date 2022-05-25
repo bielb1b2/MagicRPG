@@ -20,10 +20,17 @@ module.exports = {
         const row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
-                .setCustomId('entrar')
+                .setCustomId('participar')
                 .setLabel('Participar ')
                 .setStyle('SUCCESS')
                 .setEmoji('⚔')
+            )
+            .addComponents(
+                new MessageButton()
+                .setCustomId('iniciar')
+                .setLabel('Iniciar RPG')
+                .setStyle('PRIMARY')
+                .setEmoji('🧙‍♂️')
             )
 
         const collector = interaction.channel?.createMessageComponentCollector({ time: 40000 });
@@ -46,7 +53,7 @@ module.exports = {
         
         
         collector?.on('collect', async i => {
-            if (i.customId === 'entrar') {
+            if (i.customId === 'participar') {
 
                 const user = i.user;
 
@@ -63,14 +70,24 @@ module.exports = {
                     embed.fields[0].value = `${players.map(item => `<@${item.id}>`)}`;
 
                     
-                } 
-                await i.deferUpdate();
-                await i.editReply({ embeds: [embed], components: [row] });
+                }
+                await interaction.editReply({ embeds: [embed], components: [row] });
+            } else if(i.customId === "iniciar") {
+
+                const user = i.user;
+
+                if(user.id === mestreDoRPG?.id) {
+                    embed.addField("Game Iniciado", "Não é mais possível entrar nesta partida")
+                    embed.setTitle(`Partida Iniciada: __${nomeDoRPG}__`);
+                    embed.setColor("BLUE");
+
+                    await interaction.editReply({ embeds: [embed], components: [] })
+                }
             }
         });
 
-        collector?.on('end', async i => {
-            console.log('Fechado!');
+        collector?.on('dispose', async i => {
+            console.log('sla')
         })
 
         

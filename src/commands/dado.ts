@@ -52,6 +52,8 @@ module.exports = {
 
         let numeroVezes = interaction.options.data[0]?.value ?? 1;
 
+        console.log(numeroVezes);
+
         if(numeroVezes > 10 || numeroVezes < 1) {
             return await interaction.reply({ embeds: [embed.setTitle('ERRO: Número inserido de forma errada!').setDescription(' [Máximo de lançamentos: 10] [Mínimo de lançamentos: 1]').setColor('RED')], components: [] })
         }
@@ -59,19 +61,17 @@ module.exports = {
         await interaction.reply({ embeds: [embed], components: [row] });            
 
         collector?.on('collect', async i => {
-            try {
-                
-                for(let j = 0; j < numeroVezes; j++){
-                    const numeroGerado = Math.floor(Math.random() * (Number(i.customId) - 1 + 1)) + 1;
-                    embed.addField(`Dado ${j+1}: `, `${numeroGerado}`, true)
-                    
-                }
-                return await i.update({ embeds: [embed.setDescription('Dado(s) lançado(s)')], components: [] })
-            } catch (error) {
-                return await i.update({ embeds: [embed.setDescription('**ERROR: Algo deu errado! 🤖**')], components: [] })
-            }
-        })
+            await i.deferReply();
 
-        return;
+            const dadosJogados = [];
+
+            for(let j = 0; j < numeroVezes; j++){
+                const numeroGerado = Math.floor(Math.random() * (Number(i.customId) - 1 + 1)) + 1;
+
+                embed.addField(`Dado: ${j + 1}`, `${numeroGerado}`, true);
+            }
+            
+            await interaction.editReply({ embeds: [embed], components: [] })
+        })
     }
 }
