@@ -32,8 +32,8 @@ module.exports = {
 
         const embed = new MessageEmbed()
             .setColor('GREEN')
-            .setTitle(`Nova Partida => ${nomeDoRPG}`)
-            .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.avatarURL({ format: "gif", size: 1024, dynamic: true })}` })
+            .setTitle(`Nova Partida: __${nomeDoRPG}__`)
+            .setAuthor({ name: `O Mestre: ${interaction.user.username}`, iconURL: `${interaction.user.avatarURL({ format: "gif", size: 1024, dynamic: true })}` })
             .setDescription("Clique em participar para entrar")
             .addFields({ name: "Participantes", value: "Nenhum" })
             .setImage('https://i0.wp.com/www.thexboxhub.com/wp-content/uploads/2019/02/Crossroads-Inn-Key_Art.jpg?resize=640%2C275&ssl=1')
@@ -64,14 +64,13 @@ module.exports = {
 
                     
                 } 
-
                 await i.deferUpdate();
                 await i.editReply({ embeds: [embed], components: [row] });
             }
         });
 
         collector?.on('end', async i => {
-            console.log(i);
+            console.log('Fechado!');
         })
 
         

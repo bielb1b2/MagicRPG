@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres
+    container_name: database_magicbot
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=magicbotadmin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=magicbo
+    volumes:
+      - pdgata:/data/postgres
+  
+  app:
+    build: .  
+    container_name: magicbotapp
+    restart: always
+    ports:
+      - 3350:3350
+    volumes:
+      - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+
+volumes:
+  pdgata:
+    driver: local
