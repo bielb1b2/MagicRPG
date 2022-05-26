@@ -43,6 +43,7 @@ module.exports = {
         const embed = new MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle('DADO')
+                .setImage('https://uploads.jovemnerd.com.br/wp-content/uploads/2021/02/dado-rpg-led-b.jpg')
                 .setDescription('Escolha um dos dados')
                 .setFooter({ text: 'Magic Bot • RPG' })
 
@@ -61,9 +62,6 @@ module.exports = {
         await interaction.reply({ embeds: [embed], components: [row] });            
 
         collector?.on('collect', async i => {
-            await i.deferReply();
-
-            const dadosJogados = [];
 
             for(let j = 0; j < numeroVezes; j++){
                 const numeroGerado = Math.floor(Math.random() * (Number(i.customId) - 1 + 1)) + 1;
