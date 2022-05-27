@@ -1,17 +1,18 @@
 import { Client, Collection, Intents, } from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { Routes } from 'discord-api-types/v9';
 import { REST } from '@discordjs/rest';
 import { token, clientId, guildId } from '../config.json';
+import { PrismaClient } from '@prisma/client';
 
 import path from 'node:path'
 import fs from 'fs';
 import { ICommands } from './@types';
-import { DatabaseRPG } from './database/database';
 
 interface IClient extends Client {
     commands: Collection<any, any>
 }
+
+const prisma = new PrismaClient();
 
 const client = new Client({  
     intents: [Intents.FLAGS.GUILDS],
@@ -39,8 +40,6 @@ for (const file of commandFiles) {
 }
 
 const rest = new REST({ version: '9' }).setToken(token);
-
-const { database } = new DatabaseRPG();
 
 (async () => {
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })

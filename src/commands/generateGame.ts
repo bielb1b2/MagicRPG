@@ -7,6 +7,7 @@ module.exports = {
         .setName('start')
         .setDescription('Inicia um novo jogo jogo de RPG')
         .addStringOption(option => option.setName('nomedorpg').setDescription('Coloque o nome do rpg').setRequired(true)),
+
     async execute(interaction: CommandInteraction) {
 
         const nomeDoRPG = interaction.options.getString('nomedorpg')
@@ -50,8 +51,6 @@ module.exports = {
         
         const players: any[] = []
 
-        
-        
         collector?.on('collect', async i => {
             if (i.customId === 'participar') {
 
@@ -84,14 +83,6 @@ module.exports = {
                     await interaction.editReply({ embeds: [embed], components: [] })
                 }
             }
-        });
-
-        collector?.on('dispose', async i => {
-            console.log('sla')
-        })
-
-        
-                                                          
-        return;
+        });                                               
     }
 }
