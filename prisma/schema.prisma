@@ -13,8 +13,14 @@ datasource db {
 model Game {
   id String @id @unique @default(uuid())
 
-  masterId String? @unique
+  masterId String @unique
+
+  type TypeGame @default(FANTASIA)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum TypeGame {
+  FANTASIA
 }
